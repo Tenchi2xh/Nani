@@ -1,0 +1,4 @@
+typewriter.egg-info/
+.venv/
+*.pyc
+*.pyo

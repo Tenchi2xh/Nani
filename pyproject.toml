@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "typewriter"
+version = "0.1.0"
+description = ""
+authors = ["Hamza Haiken <tenchi@team2xh.net>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+"discord.py" = { git = "https://github.com/Rapptz/discord.py", branch = "rewrite" }
+imgkit = "^1.0"
+yattag = "^1.11"
+selenium = "^3.141"
+mecab-python3 = "^0.996.1"
+jaconv = "^0.2.4"
+
+
+[tool.poetry.dev-dependencies]
+ptpython = "^2.0"
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

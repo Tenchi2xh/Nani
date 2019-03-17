@@ -1,0 +1,12 @@
+p {
+  -webkit-writing-mode: vertical-rl;
+  font-family: "Manga Main";
+  font-size: 20pt;
+  font-weight: 800;
+  -webkit-mask-size: 100px;
+  -webkit-mask-image: url("https://i.imgur.com/OaxG7oM.png");
+}
+
+rt {
+  font-family: "Manga Furigana";
+}
