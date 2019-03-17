@@ -8,10 +8,10 @@ is_hira_kata = re.compile(r"[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9
 
 
 def html_furigana(text):
-    words = mecab(text)
+    words = glue_punctuation(mecab(text))
     html = ""
     for source, reading in words:
-        if is_text.match(source) or is_hira_kata.match(source) or not reading:
+        if is_text.match(source) or not reading:
             html += source
         else:
             html += to_ruby(source, reading)
@@ -35,9 +35,27 @@ def mecab(text):
     return words
 
 
+punctuation = "。、！？‼️⁉️,.!?"
+
+
+def glue_punctuation(words):
+    new_words = []
+    for source, reading in words:
+        if source in punctuation:
+            if not new_words:
+                new_words.append((source, reading))
+            elif new_words[-1][1] is None:
+                new_words[-1] = ((new_words[-1][0] + source), None)
+            else:
+                new_words[-1] = ((new_words[-1][0] + source), new_words[-1][1] + source)
+        else:
+            new_words.append((source, reading))
+    return new_words
+
+
 def to_ruby(source, reading):
     if source == reading:
-        return reading
+        return "<ruby><rb>%s</rb></ruby>" % reading  # prevents breaking mid-word
     if source == "だ" and reading == "で":
         return "だ"
     if reading == "かおもじ" and source != "顔文字":
