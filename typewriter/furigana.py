@@ -3,8 +3,8 @@ import jaconv
 import re
 
 
-is_text = re.compile(r"([A-Za-z0-9]+)")
-is_hira_kata = re.compile(r"[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f]+")
+is_text = re.compile(r"^[A-Za-z0-9]+$")
+is_hira_kata = re.compile(r"^[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f]+$")
 
 
 def html_furigana(text):
@@ -37,7 +37,7 @@ def mecab(text):
     return words
 
 
-punctuation = "。、！？‼️⁉️,.!?"
+punctuation = "。、！？‼️⁉️,.!?〜ー"
 
 
 def glue_punctuation(words):
@@ -82,4 +82,4 @@ def to_ruby(source, reading):
     rt = reading[first_diff:len(reading) - last_diff]
     after = reading[len(reading) - last_diff:]
 
-    return "%s<ruby><rb>%s</rb><rt>%s</rt></ruby>%s" % (before, rb, rt, after)
+    return '<span class="nobreak">%s<ruby><rb>%s</rb><rt>%s</rt></ruby>%s</span>' % (before, rb, rt, after)
