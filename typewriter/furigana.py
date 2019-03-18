@@ -56,8 +56,8 @@ def glue_punctuation(words):
 
 
 def to_ruby(source, reading):
-    if source == reading:
-        return "<ruby><rb>%s</rb></ruby>" % reading  # prevents breaking mid-word
+    if source == reading or is_hira_kata.match(source):
+        return "<ruby><rb>%s</rb></ruby>" % source  # prevents breaking mid-word
     if source == "だ" and reading == "で":
         return "だ"
     if reading == "かおもじ" and source != "顔文字":
