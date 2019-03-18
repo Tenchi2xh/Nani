@@ -11,6 +11,7 @@ def read_templates():
             template = json.load(f)
         name = j[:-5]
         template["image"] = os.path.join(resources, name + ".png")
+        template["name"] = name
         templates[name] = template
 
     return templates

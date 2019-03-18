@@ -1,26 +1,49 @@
 import os
 import discord
 
-from . import templates
+from .templates import templates, categories
 from .render import render
 
+prefix = "."
+command_names = ["t", "template"]
+category_commands = {}
 
-command_names = [".meme", ".m", ".template", ".t"]
+for category in categories:
+    for i in range(1, len(category)):
+        if category[:i] not in category_commands:
+            category_commands[category[:i]] = categories[category]
+            category_commands[category] = categories[category]
+            break
 
 
-class RenderTemplate(object):
-    @staticmethod
-    async def execute(client, message):
-        if any(message.content.startswith(n + " ") for n in command_names):
+async def execute(client, message):
+    content = message.content
 
-            _, template_name, text = message.content.split(maxsplit=2)
+    if any(content.startswith("%s%s " % (prefix, n)) for n in command_names):
+        _, template_name, text = content.split(maxsplit=2)
+        if template_name not in templates.keys():
+            await message.channel.send("Template '%s' not found." % template_name)
+            return
+        template = templates[template_name]
 
-            if template_name not in templates.keys():
-                await message.channel.send("Template '%s' not found." % template_name)
+    elif any(content.startswith("%s%s " % (prefix, n)) for n in category_commands):
+        command, short_template_name, text = content.split(maxsplit=2)
+        command = command.lstrip(prefix)
 
-            template = templates[template_name]
-            path = render(template, text)
-            await message.channel.send(file=discord.File(path))
-            os.remove(path)
+        if short_template_name not in category_commands[command]:
+            await message.channel.send("Template '%s-%s' not found." % (command, short_template_name))
+            return
 
-            return True
+        template = category_commands[command][short_template_name]
+    else:
+        return
+
+    print(
+        "=> User %s is rendering template %s with text '%s'"
+        % (message.author, template["name"], text),
+        flush=True
+    )
+
+    path = render(template, text)
+    await message.channel.send(file=discord.File(path))
+    os.remove(path)
