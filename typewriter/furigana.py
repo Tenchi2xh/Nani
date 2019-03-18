@@ -22,9 +22,11 @@ def html_furigana(text):
 def mecab(text):
     mecab = MeCab.Tagger("")
     words = []
+    text = text.replace(chr(32), chr(160))  # Replace spaces with forced spaces so that mecab doesn't strip them
     output = mecab.parse(text).splitlines()[:-1]
     lines = [raw_line.split("\t") for raw_line in output]
     for word, info in lines:
+        word = word.replace(chr(160), chr(32))  # Flip back
         elems = info.split(",")
         if len(elems) > 7:
             reading = jaconv.kata2hira(info.split(",")[7])
