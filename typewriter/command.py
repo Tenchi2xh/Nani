@@ -5,7 +5,8 @@ from .templates import templates, categories
 from .render import render
 
 prefix = "."
-command_names = ["t", "template"]
+template_command_names = ["t", "template"]
+help_command_names = ["h", "help"]
 category_commands = {}
 
 for category in categories:
@@ -16,17 +17,32 @@ for category in categories:
             break
 
 
-async def execute(client, message):
+
+async def execute(info, client, message):
     content = message.content
 
-    if any(content.startswith("%s%s " % (prefix, n)) for n in command_names):
+    def is_command(names):
+        return any(content.startswith("%s%s" % (prefix, n)) for n in names)
+
+    async def send_template(template, text):
+        print(
+            "=> User %s is rendering template %s with text '%s'"
+            % (message.author, template["name"], text),
+            flush=True
+        )
+        path = render(template, text)
+        await message.channel.send(file=discord.File(path))
+        os.remove(path)
+
+    if is_command(template_command_names):
         _, template_name, text = content.split(maxsplit=2)
         if template_name not in templates.keys():
             await message.channel.send("Template '%s' not found." % template_name)
             return
         template = templates[template_name]
+        return await send_template(template, text)
 
-    elif any(content.startswith("%s%s " % (prefix, n)) for n in category_commands):
+    elif is_command(category_commands):
         command, short_template_name, text = content.split(maxsplit=2)
         command = command.lstrip(prefix)
 
@@ -35,15 +51,20 @@ async def execute(client, message):
             return
 
         template = category_commands[command][short_template_name]
-    else:
+        return await send_template(template, text)
+
+    elif is_command(help_command_names):
+        embed = discord.Embed(
+            title="Help for %s" % info.name,
+            description="This bot can generate **manga panels** (and other templates).\n\nWhen generating templates with Japanese text, a language processor will annotate all *kanji* with **furigana**.\n\nThe command to generate a panel starts with a full stop, followed by the name of the category (the first letter is enough, for example `.y`). After the command name, specify the template name, and then the text to use.\n\nTry it out yourself:\n\n• `.yotsuba ask 何これ…？`\n• `.y gun 俺を誰だと思ってるんだ⁉️`\n• `.template yotsuba-pray ご馳走様〜！`\n\nThere are multiple **categories** to choose templates from:"
+        )
+        embed.set_thumbnail(url="https://i.imgur.com/mzYNzSN.png")
+        for category in categories:
+            embed.add_field(
+                name="`%s`:" % category,
+                value=", ".join("`%s`" % t for t in categories[category]),
+                inline=True
+            )
+        await message.channel.send(embed=embed)
+
         return
-
-    print(
-        "=> User %s is rendering template %s with text '%s'"
-        % (message.author, template["name"], text),
-        flush=True
-    )
-
-    path = render(template, text)
-    await message.channel.send(file=discord.File(path))
-    os.remove(path)
