@@ -21,6 +21,9 @@ def render(template, text):
 
 
 if __name__ == "__main__":
-    from . import templates
-    print(render(templates["yotsuba-gun"], "ここは細菌禁止。逮捕する…‼︎"))
-    #print(render(templates["yotsuba-gun"], "何⁉️"))
+    from .templates import templates
+    import os
+    path = render(templates["yotsuba-ask"], "ここは細菌禁止。逮捕する…‼︎")
+    #path = render(templates["yotsuba-gun"], "何⁉️")
+    os.system("imgcat " + path)
+    os.remove(path)

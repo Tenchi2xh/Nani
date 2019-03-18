@@ -16,4 +16,19 @@ def read_templates():
     return templates
 
 
+def categorize(templates):
+    categories = {}
+    for full_name, template in templates.items():
+        if "-" not in full_name:
+            category = "misc"
+            name = full_name
+        else:
+            category, name = full_name.split("-", 1)
+        if category not in categories:
+            categories[category] = {}
+        categories[category][name] = template
+    return categories
+
+
 templates = read_templates()
+categories = categorize(templates)

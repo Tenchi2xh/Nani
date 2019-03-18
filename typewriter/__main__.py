@@ -1,6 +1,6 @@
 import discord
 
-from .commands import RenderTemplate
+from .command import RenderTemplate
 
 
 commands = [RenderTemplate]
@@ -8,16 +8,20 @@ commands = [RenderTemplate]
 
 def serve():
     client = discord.Client()
+    owner = None
 
     @client.event
     async def on_ready():
-        message = "Logged in with ID %s" % client.user.id
+        nonlocal owner
+        owner = (await client.application_info()).owner
+        print("Logged in with ID: %s" % client.user.id)
+        print("Bot owner ID:      %s" % owner.id)
         print(message)
         print("-" * len(message), flush=True)
 
     @client.event
     async def on_message(message):
-        if message.author == client.user:
+        if message.author == client.user or message.author != owner:
             return
 
         for command in commands:

@@ -2,14 +2,13 @@ import os
 import discord
 
 from . import templates
-from ..commands import Command
 from .render import render
 
 
 command_names = [".meme", ".m", ".template", ".t"]
 
 
-class RenderTemplate(Command):
+class RenderTemplate(object):
     @staticmethod
     async def execute(client, message):
         if any(message.content.startswith(n + " ") for n in command_names):
