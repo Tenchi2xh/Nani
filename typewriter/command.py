@@ -56,13 +56,21 @@ async def execute(info, client, message):
     elif is_command(help_command_names):
         embed = discord.Embed(
             title="Help for %s" % info.name,
-            description="This bot can generate **manga panels** (and other templates).\n\nWhen generating templates with Japanese text, a language processor will annotate all *kanji* with **furigana**.\n\nThe command to generate a panel starts with a full stop, followed by the name of the category (the first letter is enough, for example `.y`). After the command name, specify the template name, and then the text to use.\n\nTry it out yourself:\n\n• `.yotsuba ask 何これ…？`\n• `.y gun 俺を誰だと思ってるんだ⁉️`\n• `.template yotsuba-pray ご馳走様〜！`\n\nThere are multiple **categories** to choose templates from:"
+            description="This bot can generate **manga panels** (and other templates).\n\nWhen generating templates with Japanese text, a language processor will annotate all *kanji* with **furigana**.\n\nThe command to generate a panel starts with a full stop, followed by the name of the category (the first letter is enough, for example `.y`). After the command name, specify the template name, and then the text to use.\n\nTemplates denoted with (2) or more contain multiple speech bubbles. To fill them, each text must be provided on a separate line (Shift + Enter on desktop, carriage return on moble).\n\nTry it out yourself:\n\n• `.yotsuba ask 何これ…？`\n• `.y gun 俺を誰だと思ってるんだ⁉️`\n• `.template yotsuba-pray ご馳走様〜！`\n\n**Available categories:**"
         )
         embed.set_thumbnail(url="https://i.imgur.com/mzYNzSN.png")
         for category in categories:
+            names = []
+            for template_name in categories[category]:
+                name = "`%s`" % template_name
+                bubbles = len(categories[category][template_name]["bubbles"])
+                if bubbles > 1:
+                    name += " (%d)" % bubbles
+                names.append(name)
+
             embed.add_field(
-                name="`%s`:" % category,
-                value=", ".join("`%s`" % t for t in categories[category]),
+                name="%s (`.%s`, `.%s`):" % (category.capitalize(), category[0], category),
+                value=", ".join(names),
                 inline=True
             )
         await message.channel.send(embed=embed)
