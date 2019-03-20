@@ -27,7 +27,7 @@ with open(resource_path("style.css.j2", file_protocol=False)) as f:
 class HtmlTemplate(object):
     def __init__(self, template, text):
         self.template = template
-        self.text = text
+        self.lines = [l.strip() for l in text.split("\n") if l.strip()]
 
     def __enter__(self):
         self.stylesheet = self.css()
@@ -58,13 +58,16 @@ class HtmlTemplate(object):
                 doc.stag("link", rel="stylesheet", href=self.stylesheet)
 
             with tag("body"):
-                for bubble in self.template["bubbles"]:
+                for i, bubble in enumerate(self.template["bubbles"]):
+                    text = ""
+                    if i < len(self.lines):
+                        text = self.lines[i]
                     style = "left: %d; top: %d; width: %dpx; height: %dpx;" % (
                         bubble["x"], bubble["y"], bubble["w"], bubble["h"]
                     )
                     with tag("div", style=style, klass="bubble"):
                         with tag("p"):
-                            doc.asis(html_furigana(self.text))
+                            doc.asis(html_furigana(text))
 
                 with tag("script", src=resource_path("textFit.js")):
                     pass
