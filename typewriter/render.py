@@ -6,11 +6,11 @@ from .html import HtmlTemplate
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")
+driver = webdriver.Chrome(options=chrome_options)
 
 
 def render(template, text):
     with HtmlTemplate(template, text) as html_path:
-        driver = webdriver.Chrome(options=chrome_options)
         driver.set_window_size(template["w"], template["h"])
         driver.get("file://%s" % html_path)
 
