@@ -4,7 +4,7 @@ from .command import execute
 
 
 def serve():
-    client = discord.Client()
+    client = discord.Client(activity=discord.Game("Manga editor! Type .help"))
     info = None
 
     @client.event
