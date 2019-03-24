@@ -2,3 +2,4 @@ typewriter.egg-info/
 .venv/
 *.pyc
 *.pyo
+.DS_Store
