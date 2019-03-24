@@ -117,8 +117,8 @@ class CalligraphyTemplate(HtmlTemplate):
             template, text, author,
             stylesheet_name="calligraphy.css.j2",
             resources={
-                "font": resource_path("geikai.ttf"),
-                "bg": resource_path("templates/calligraphy/calligraphy-scroll-bg.png"),
+                "font": resource_path(template["font"]),
+                "bg": resource_path("templates/calligraphy/%s" % template["bg"]),
                 "fg": resource_path("templates/calligraphy/calligraphy-scroll-fg.png"),
                 "hue": random.randint(0, 17) * 20
             }
