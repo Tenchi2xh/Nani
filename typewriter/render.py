@@ -2,7 +2,7 @@ import tempfile
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-from .html import HtmlTemplate
+from .html import html_template
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")
@@ -10,7 +10,7 @@ driver = webdriver.Chrome(options=chrome_options)
 
 
 def render(template, text):
-    with HtmlTemplate(template, text) as html_path:
+    with html_template(template, text) as html_path:
         driver.set_window_size(template["w"], template["h"])
         driver.get("file://%s" % html_path)
 

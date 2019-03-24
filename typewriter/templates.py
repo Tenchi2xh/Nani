@@ -3,16 +3,21 @@ import json
 
 
 def read_templates():
-    resources = os.path.join(os.path.dirname(__file__), "resources", "templates")
+    templates_path = os.path.join(os.path.dirname(__file__), "resources", "templates")
     templates = {}
-    json_files = [f for f in os.listdir(resources) if f.endswith(".json")]
-    for j in json_files:
-        with open(os.path.join(resources, j)) as f:
-            template = json.load(f)
-        name = j[:-5]
-        template["image"] = os.path.join(resources, name + ".png")
-        template["name"] = name
-        templates[name] = template
+
+    template_types = [f for f in os.listdir(templates_path) if os.path.isdir(os.path.join(templates_path, f))]
+    for template_type in template_types:
+        path = os.path.join(templates_path, template_type)
+        json_files = [f for f in os.listdir(path) if f.endswith(".json")]
+        for j in json_files:
+            with open(os.path.join(templates_path, template_type, j)) as f:
+                template = json.load(f)
+            name = j[:-5]
+            template["image"] = os.path.join(templates_path, template_type, name + ".png")
+            template["name"] = name
+            template["type"] = template_type
+            templates[name] = template
 
     return templates
 
