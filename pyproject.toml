@@ -13,6 +13,8 @@ selenium = "^3.141"
 mecab-python3 = "^0.996.1"
 jaconv = "^0.2.4"
 jinja2 = "^2.10"
+Pillow = "^5.4"
+num2words = "^0.5.9"
 
 
 [tool.poetry.dev-dependencies]

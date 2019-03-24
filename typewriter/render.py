@@ -9,8 +9,8 @@ chrome_options.add_argument("--headless")
 driver = webdriver.Chrome(options=chrome_options)
 
 
-def render(template, text):
-    with html_template(template, text) as html_path:
+def render(template, text, author):
+    with html_template(template, text, author) as html_path:
         driver.set_window_size(template["w"], template["h"])
         driver.get("file://%s" % html_path)
 

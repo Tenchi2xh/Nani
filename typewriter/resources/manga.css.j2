@@ -1,0 +1,42 @@
+@font-face {
+    font-family: "Manga Main";
+    src: url({{ font.main }});
+}
+
+@font-face {
+    font-family: "Manga Furigana";
+    src: url({{ font.furigana }});
+}
+
+body {
+    background-image: url({{ image }});
+}
+
+.bubble {
+    position: absolute;  /* Position will be set by script */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bubble p {
+    padding: 0;
+    margin: 0;
+
+    -webkit-writing-mode: vertical-rl;
+    line-height: 1.5;
+
+    font-family: "Manga Main";
+    font-weight: 800;
+
+    -webkit-mask-image: url({{ texture }});
+    -webkit-mask-size: 100px;
+}
+
+.bubble rt {
+    font-family: "Manga Furigana";
+}
+
+.nobreak {
+    white-space: nowrap;
+}

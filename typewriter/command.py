@@ -1,9 +1,11 @@
 import os
 import discord
+from PIL import Image
 
 from .templates import templates, categories
 from .render import render
 
+max_file_size = 2 * 1024 * 1024  # 2 MB
 prefix = "."
 template_command_names = ["t", "template"]
 help_command_names = ["h", "help"]
@@ -30,7 +32,16 @@ async def execute(info, client, message):
             % (message.author, template["name"], text),
             flush=True
         )
-        path = render(template, text)
+        path = render(template, text, message.author.display_name)
+
+        if os.path.getsize(path) > max_file_size:
+            print("Compressing large file", flush=True)
+            image = Image.open(path)
+            image = image.convert("RGB")
+            path, old_path = path[:-3] + "jpg", path
+            image.save(path)
+            os.remove(old_path)
+
         await message.channel.send(file=discord.File(path))
         os.remove(path)
 
@@ -63,9 +74,12 @@ async def execute(info, client, message):
             names = []
             for template_name in categories[category]:
                 name = "`%s`" % template_name
-                bubbles = len(categories[category][template_name]["bubbles"])
-                if bubbles > 1:
-                    name += " (%d)" % bubbles
+                if "bubbles" in categories[category][template_name]:
+                    elements = len(categories[category][template_name]["bubbles"])
+                else:
+                    elements = categories[category][template_name]["elements"]
+                if elements > 1:
+                    name += " (%d)" % elements
                 names.append(name)
 
             embed.add_field(

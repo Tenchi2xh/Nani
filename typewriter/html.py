@@ -1,9 +1,11 @@
 import os
 import math
 import tempfile
-from abc import ABC, abstractmethod
 from yattag import Doc
 from jinja2 import Template
+from datetime import datetime
+from num2words import num2words
+from abc import ABC, abstractmethod
 
 from .furigana import html_furigana
 
@@ -13,18 +15,25 @@ def resource_path(path, file_protocol=True):
     return "%s%s/resources/%s" % (protocol, os.path.dirname(__file__), path)
 
 
-def html_template(template, text):
+def css_position(box):
+    return "left: %d; top: %d; width: %dpx; height: %dpx;" % (
+        box["x"], box["y"], box["w"], box["h"]
+    )
+
+def html_template(template, text, author):
     template_types = {
-        "manga": MangaTemplate
+        "manga": MangaTemplate,
+        "calligraphy": CalligraphyTemplate,
     }
 
-    return template_types[template["type"]](template, text)
+    return template_types[template["type"]](template, text, author)
 
 
 class HtmlTemplate(ABC):
-    def __init__(self, template, text, stylesheet_name, resources):
+    def __init__(self, template, text, author, stylesheet_name, resources):
         self.template = template
         self.lines = [l.strip() for l in text.split("\n") if l.strip()]
+        self.author = author
         self.stylesheet_name = stylesheet_name
         self.resources = resources
 
@@ -34,6 +43,7 @@ class HtmlTemplate(ABC):
         return self.path
 
     def __exit__(self, *args):
+        #os.system("open file://%s" % self.path)
         os.remove(self.path)
         os.remove(self.stylesheet)
         return
@@ -52,23 +62,8 @@ class HtmlTemplate(ABC):
         return f.name
 
     @abstractmethod
-    def html(self):
+    def body(self, doc, tag, txt):
         pass
-
-
-class MangaTemplate(HtmlTemplate):
-    def __init__(self, template, text):
-        super().__init__(
-            template, text,
-            stylesheet_name="style.css.j2",
-            resources={
-                "font": {
-                    "main": resource_path("FOT-RodinWanpakuPro-EB.otf"),
-                    "furigana": resource_path("yumin.ttf")
-                },
-                "texture": resource_path("texture.png")
-            }
-        )
 
     def html(self):
         doc, tag, txt = Doc().tagtext()
@@ -79,22 +74,66 @@ class MangaTemplate(HtmlTemplate):
                 doc.stag("link", rel="stylesheet", href=self.stylesheet)
 
             with tag("body"):
-                for i, bubble in enumerate(self.template["bubbles"]):
-                    text = ""
-                    if i < len(self.lines):
-                        text = self.lines[i]
-                    style = "left: %d; top: %d; width: %dpx; height: %dpx;" % (
-                        bubble["x"], bubble["y"], bubble["w"], bubble["h"]
-                    )
-                    with tag("div", style=style, klass="bubble"):
-                        with tag("p"):
-                            doc.asis(html_furigana(text))
+                self.body(doc, tag, txt)
 
                 with tag("script", src=resource_path("textFit.js")):
                     pass
                 with tag("script"):
-                    txt("document.querySelectorAll('.bubble').forEach(textFit);")
+                    txt("textFit(document.getElementsByClassName('fit'), {maxFontSize: 500});")
 
         f = tempfile.NamedTemporaryFile(mode="w", suffix=".html", delete=False)
         f.write(doc.getvalue())
         return f.name
+
+
+class MangaTemplate(HtmlTemplate):
+    def __init__(self, template, text, author):
+        super().__init__(
+            template, text, author,
+            stylesheet_name="manga.css.j2",
+            resources={
+                "font": {
+                    "main": resource_path("FOT-RodinWanpakuPro-EB.otf"),
+                    "furigana": resource_path("yumin.ttf")
+                },
+                "texture": resource_path("texture.png")
+            }
+        )
+
+    def body(self, doc, tag, txt):
+        for i, bubble in enumerate(self.template["bubbles"]):
+            text = ""
+            if i < len(self.lines):
+                text = self.lines[i]
+            with tag("div", style=css_position(bubble), klass="bubble fit"):
+                with tag("p"):
+                    doc.asis(html_furigana(text))
+
+
+class CalligraphyTemplate(HtmlTemplate):
+    def __init__(self, template, text, author):
+        super().__init__(
+            template, text, author,
+            stylesheet_name="calligraphy.css.j2",
+            resources={
+                "font": resource_path("geikai.ttf")
+            }
+        )
+        now = datetime.now()
+        signature = "%s　%s年%s月%s日　天地" % (
+            self.author,
+            num2words(now.year, lang="ja"),
+            num2words(now.month, lang="ja"),
+            num2words(now.day, lang="ja")
+        )
+        self.lines = self.lines[:2] + [signature]
+
+    def body(self, doc, tag, txt):
+        parts = ["title", "main", "signature"]
+        for i, part in enumerate(parts):
+            text = ""
+            if i < len(self.lines):
+                text = self.lines[i]
+            with tag("div", style=css_position(self.template[part]), klass="text fit %s" % part):
+                with tag("p"):
+                    doc.asis(text)
