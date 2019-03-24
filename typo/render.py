@@ -17,6 +17,7 @@ def render(template, text, author):
         f = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
         f.close()
         driver.save_screenshot(f.name)
+        driver.close()
         return f.name
 
 
