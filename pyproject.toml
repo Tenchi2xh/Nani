@@ -5,7 +5,7 @@ description = ""
 authors = ["Hamza Haiken <tenchi@team2xh.net>"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.6"
 "discord.py" = { git = "https://github.com/Rapptz/discord.py", branch = "rewrite" }
 imgkit = "^1.0"
 yattag = "^1.11"
