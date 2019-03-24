@@ -3,3 +3,4 @@ typo.egg-info/
 *.pyc
 *.pyo
 .DS_Store
+typo.conf

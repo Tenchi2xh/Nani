@@ -1,0 +1,10 @@
+[typo]
+token = <bot_token>
+# whitelist and blacklist are mutually exclusive
+# whitelist = [
+#     123,
+#     456,
+#     789
+#     ]
+# blacklist = [...]
+blacklist = []
