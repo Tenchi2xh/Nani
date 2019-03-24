@@ -1,5 +1,6 @@
 import os
 import math
+import random
 import tempfile
 from yattag import Doc
 from jinja2 import Template
@@ -116,7 +117,10 @@ class CalligraphyTemplate(HtmlTemplate):
             template, text, author,
             stylesheet_name="calligraphy.css.j2",
             resources={
-                "font": resource_path("geikai.ttf")
+                "font": resource_path("geikai.ttf"),
+                "bg": resource_path("templates/calligraphy/calligraphy-scroll-bg.png"),
+                "fg": resource_path("templates/calligraphy/calligraphy-scroll-fg.png"),
+                "hue": random.randint(0, 17) * 20
             }
         )
         now = datetime.now()
@@ -130,10 +134,11 @@ class CalligraphyTemplate(HtmlTemplate):
 
     def body(self, doc, tag, txt):
         parts = ["title", "main", "signature"]
-        for i, part in enumerate(parts):
-            text = ""
-            if i < len(self.lines):
-                text = self.lines[i]
-            with tag("div", style=css_position(self.template[part]), klass="text fit %s" % part):
-                with tag("p"):
-                    doc.asis(text)
+        with tag("div", klass="scroll"):
+            for i, part in enumerate(parts):
+                text = ""
+                if i < len(self.lines):
+                    text = self.lines[i]
+                with tag("div", style=css_position(self.template[part]), klass="text fit %s" % part):
+                    with tag("p"):
+                        doc.asis(text)

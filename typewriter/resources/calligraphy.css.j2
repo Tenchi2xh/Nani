@@ -4,7 +4,28 @@
 }
 
 body {
-    background-image: url({{ image }});
+    margin: 0;
+}
+
+.scroll {
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    background-image: url({{ fg }});
+}
+
+.scroll:before {
+    background-image: url({{ bg }});
+    filter: hue-rotate({{ hue }}deg);
+
+    display: block;
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
 }
 
 .text {
@@ -17,7 +38,7 @@ body {
     padding: 0;
     margin: 0;
     -webkit-writing-mode: vertical-rl;
-    text-orientation: upright;
+    /*text-orientation: upright;*/
     font-family: "Calligraphy";
 }
 
