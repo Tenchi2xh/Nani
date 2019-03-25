@@ -1,3 +1,4 @@
+import atexit
 import tempfile
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -7,6 +8,7 @@ from .html import html_template
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 driver = webdriver.Chrome(options=chrome_options)
+atexit.register(driver.quit)
 
 
 def render(template, text, author):
@@ -17,7 +19,6 @@ def render(template, text, author):
         f = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
         f.close()
         driver.save_screenshot(f.name)
-        driver.close()
         return f.name
 
 
