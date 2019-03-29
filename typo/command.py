@@ -10,11 +10,14 @@ prefix = "."
 template_command_names = ["t", "template"]
 help_command_names = ["h", "help"]
 category_commands = {}
+short_commands = {}
 
 for category in categories:
     for i in range(1, len(category)):
-        if category[:i] not in category_commands:
-            category_commands[category[:i]] = categories[category]
+        short = category[:i]
+        if short not in category_commands and short not in template_command_names + help_command_names:
+            category_commands[short] = categories[category]
+            short_commands[category] = short
             category_commands[category] = categories[category]
             break
 
@@ -83,7 +86,7 @@ async def execute(info, client, message):
                 names.append(name)
 
             embed.add_field(
-                name="%s (`.%s`, `.%s`):" % (category.capitalize(), category[0], category),
+                name="%s (`.%s`, `.%s`):" % (category.capitalize(), short_commands[category], category),
                 value=", ".join(names),
                 inline=True
             )
