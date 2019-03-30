@@ -79,8 +79,8 @@ class HtmlTemplate(ABC):
 
                 with tag("script", src=resource_path("textFit.js")):
                     pass
-                with tag("script"):
-                    txt("textFit(document.getElementsByClassName('fit'), {maxFontSize: 500});")
+                with tag("script", src=resource_path("doFit.js")):
+                    pass
 
         f = tempfile.NamedTemporaryFile(mode="w", suffix=".html", delete=False)
         f.write(doc.getvalue())

@@ -7,6 +7,9 @@ from .html import html_template
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")
+chrome_options.add_argument("--hide-scrollbars")
+chrome_options.add_argument("--force-device-scale-factor=1")
+chrome_options.add_argument("--high-dpi-support=1")
 driver = webdriver.Chrome(options=chrome_options)
 atexit.register(driver.quit)
 
