@@ -38,3 +38,8 @@ def categorize(templates):
 
 templates = read_templates()
 categories = categorize(templates)
+
+def refresh():
+    global template, categories
+    templates = read_templates()
+    categories = categorize(templates)
