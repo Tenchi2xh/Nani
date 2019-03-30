@@ -5,7 +5,7 @@ import configparser
 from .command import execute
 
 
-def serve(token, whitelist, blacklist):
+def serve(token, whitelist, blacklist, homebase):
     client = discord.Client(activity=discord.Game("Manga editor! Type .help"))
     info = None
 
@@ -23,7 +23,7 @@ def serve(token, whitelist, blacklist):
             or not blacklist and message.author.id not in whitelist
             or message.author.id in blacklist):
             return
-        await execute(info, client, message)
+        await execute(info, client, message, homebase)
 
     print("Typo logging in...", flush=True)
     client.run(token)
@@ -47,5 +47,6 @@ if __name__ == "__main__":
     whitelist = load_list("whitelist")
     blacklist = load_list("blacklist")
     token = config["typo"]["token"]
+    homebase = config["typo"].get("homebase", None)
 
-    serve(token, whitelist, blacklist)
+    serve(token, whitelist, blacklist, homebase)
