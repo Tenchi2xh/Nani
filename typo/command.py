@@ -117,10 +117,10 @@ async def execute(info, client, message, homebase):
         templates.refresh()
         refresh_category_commands()
 
-        if not homebase:
+        if homebase is None:
             return
 
-        server = client.get_guild(homebase)
+        server = client.get_guild(int(homebase))
         category_format = re.compile(r"^\[Typo\]\s.+$")
 
         for discord_category in server.categories:
