@@ -36,7 +36,10 @@ async def execute(info, client, message):
     content = message.content
 
     def is_command(names):
-        return any(content.startswith("%s%s" % (prefix, n)) for n in names)
+        if not content.strip():
+            return False
+        first_word = content.split()[0]
+        return any(first_word == "%s%s" % (prefix, n) for n in names)
 
     async def send_template(template, text):
         print(
