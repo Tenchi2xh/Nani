@@ -14,7 +14,7 @@ document.fonts.ready.then(function () {
                 margin += 1;
                 span.style.marginTop = margin + "px";
             }
-            let newMargin = (margin - 1) / 2;
+            let newMargin = Math.max(0, (margin - 3) / 2);
             span.style.marginTop = newMargin + "px";
             // Unfortunately, chrome derps out here, and leaves the box as is,
             // i.e. in its wide state post-wrapping.
