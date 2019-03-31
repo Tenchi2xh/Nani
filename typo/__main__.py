@@ -48,5 +48,7 @@ if __name__ == "__main__":
     blacklist = load_list("blacklist")
     token = config["typo"]["token"]
     homebase = config["typo"].get("homebase", None)
+    if homebase is not None:
+        homebase = int(homebase)
 
     serve(token, whitelist, blacklist, homebase)

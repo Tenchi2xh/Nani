@@ -15,7 +15,8 @@ prefix = "."
 template_command_names = ["t", "template"]
 help_command_names = ["h", "help"]
 refresh_command_names = ["refresh"]
-non_template_commands = template_command_names + help_command_names + refresh_command_names
+gallery_command_names = ["gallery"]
+non_template_commands = template_command_names + help_command_names + refresh_command_names + gallery_command_names
 
 
 def refresh_category_commands():
@@ -82,10 +83,18 @@ async def execute(info, client, message, homebase):
         template = category_commands[command][short_template_name]
         return await send_template(message.channel, template, text)
 
+    elif is_command(gallery_command_names):
+        if homebase is None:
+            return
+
+        server = client.get_guild(homebase)
+        invite = await server.text_channels[0].create_invite(max_age=3600, max_uses=1)
+        await message.author.send(content="**Templates Gallery**\nYou can browse the template gallery on my official server:\n%s" % invite.url)
+
     elif is_command(help_command_names):
         embed = discord.Embed(
             title="Help for %s" % info.name,
-            description="This bot can generate **manga panels** (and other templates).\n\nWhen generating templates with Japanese text, a language processor will annotate all *kanji* with **furigana**.\n\nThe command to generate a panel starts with a full stop, followed by the name of the category (the first letter is enough, for example `.y`). After the command name, specify the template name, and then the text to use.\n\nTry it out yourself:\n\n• `.yotsuba ask 何これ…？`\n• `.y gun 俺を誰だと思ってるんだ⁉️`\n• `.template yotsuba-pray ご馳走様〜！`\n\nTemplates denoted with a number contains that amount of speech bubbles. To fill them, each bubble must be provided on a separate line (Shift + Enter on desktop, carriage return on mobile). For example:\n\n```.gintama revolt This is bubble 1.\nAnd this is bubble 2!```\n\n**Available categories:**"
+            description="This bot can generate **manga panels** (and other templates).\n\nTo browse all available templates with examples, ask for an invite with the `.gallery` command.\n\nWhen generating templates with Japanese text, a language processor will annotate all *kanji* with **furigana**.\n\nThe command to generate a panel starts with a full stop, followed by the name of the category (the first letter is enough, for example `.y`). After the command name, specify the template name, and then the text to use.\n\nTry it out yourself:\n\n• `.yotsuba ask 何これ…？`\n• `.y gun 俺を誰だと思ってるんだ⁉️`\n• `.template yotsuba-pray ご馳走様〜！`\n\nTemplates denoted with a number contains that amount of speech bubbles. To fill them, each bubble must be provided on a separate line (Shift + Enter on desktop, carriage return on mobile). For example:\n\n```.gintama revolt This is bubble 1.\nAnd this is bubble 2!```\n\n**Available categories:**"
         )
         embed.set_thumbnail(url="https://i.imgur.com/mzYNzSN.png")
 
@@ -120,7 +129,7 @@ async def execute(info, client, message, homebase):
         if homebase is None:
             return
 
-        server = client.get_guild(int(homebase))
+        server = client.get_guild(homebase)
         category_format = re.compile(r"^\[Typo\]\s.+$")
 
         for discord_category in server.categories:
