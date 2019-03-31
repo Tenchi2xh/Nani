@@ -25,7 +25,7 @@ def serve(token, whitelist, blacklist, homebase):
             return
         await execute(info, client, message, homebase)
 
-    print("Typo logging in...", flush=True)
+    print("Nani⁉ logging in...", flush=True)
     client.run(token)
 
 

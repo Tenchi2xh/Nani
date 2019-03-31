@@ -130,7 +130,7 @@ async def execute(info, client, message, homebase):
             return
 
         server = client.get_guild(homebase)
-        category_format = re.compile(r"^\[Typo\]\s.+$")
+        category_format = re.compile(r"^\[(Typo|Nani⁉)\]\s.+$")
 
         for discord_category in server.categories:
             if category_format.match(discord_category.name):
@@ -155,7 +155,7 @@ async def execute(info, client, message, homebase):
 
         discord_categories = {}
         for category_name in category_names:
-            discord_categories[category_name] = await server.create_category("[Typo] %s" % category_name, overwrites=overwrites)
+            discord_categories[category_name] = await server.create_category("[Nani⁉] %s" % category_name, overwrites=overwrites)
 
         for category in templates.categories:
             category_type = list(templates.categories[category].values())[0]["type"]
