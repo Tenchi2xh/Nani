@@ -29,8 +29,8 @@ Templates denoted with a number contains that amount of speech bubbles.\
  (Shift + Enter on desktop, carriage return on mobile). For example:
 
 ```
-.gintama revolt This is bubble
-1.And this is bubble 2!
+.gintama revolt This is bubble 1.
+And this is bubble 2!
 ```
 
 **Available categories:**
