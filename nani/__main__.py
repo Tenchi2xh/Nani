@@ -31,11 +31,12 @@ def serve(config):
 
 def main():
     config = configparser.ConfigParser()
-    config.read("typo.conf")
+    config.read("nani.conf")
+    config = config["nani"]
 
     def load_list(name):
-        if name in config["typo"]:
-            raw_lst = config["typo"][name]
+        if name in config:
+            raw_lst = config[name]
             if raw_lst == "*":
                 lst = []
             else:
@@ -45,16 +46,16 @@ def main():
         return []
 
     def load_optional_int(name):
-        raw_value = config["typo"].get(name, None)
+        raw_value = config.get(name, None)
         if raw_value is not None:
             return int(raw_value)
 
     config_dict = {
         "whitelist": load_list("whitelist"),
         "blacklist": load_list("blacklist"),
-        "token": config["typo"]["token"],
-        "name": config["typo"]["name"],
-        "prefix": config["typo"].get("prefix", "."),
+        "token": config["token"],
+        "name": config["name"],
+        "prefix": config.get("prefix", "."),
         "homebase": load_optional_int("homebase"),
     }
 

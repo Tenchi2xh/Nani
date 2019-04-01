@@ -48,7 +48,7 @@ def bubble_selector(image_path):
 @click.argument("image_path", type=click.Path(exists=True))
 def add_manga(image_path):
     file_name = os.path.basename(image_path)
-    base_path = os.path.join("typo", "resources", "templates", "manga")
+    base_path = os.path.join("nani", "resources", "templates", "manga")
     dest = os.path.join(base_path, file_name)
     data_dest = os.path.join(base_path, "%s.json" % os.path.splitext(file_name)[0])
 

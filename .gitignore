@@ -1,6 +1,6 @@
-typo.egg-info/
+nani.egg-info/
 .venv/
 *.pyc
 *.pyo
 .DS_Store
-typo.conf
+nani.conf
