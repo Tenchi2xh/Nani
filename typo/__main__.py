@@ -29,7 +29,7 @@ def serve(config):
     client.run(config["token"])
 
 
-if __name__ == "__main__":
+def main():
     config = configparser.ConfigParser()
     config.read("typo.conf")
 
@@ -59,3 +59,7 @@ if __name__ == "__main__":
     }
 
     serve(config_dict)
+
+
+if __name__ == "__main__":
+    main()
