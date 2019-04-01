@@ -2,10 +2,10 @@ import json
 import discord
 import configparser
 
-from .command import execute
+from .commands import command_manager
 
 
-def serve(token, whitelist, blacklist, homebase):
+def serve(config):
     client = discord.Client(activity=discord.Game("Manga editor! Type .help"))
     info = None
 
@@ -20,13 +20,13 @@ def serve(token, whitelist, blacklist, homebase):
     @client.event
     async def on_message(message):
         if (message.author == client.user
-            or not blacklist and message.author.id not in whitelist
-            or message.author.id in blacklist):
+            or not config["blacklist"] and message.author.id not in config["whitelist"]
+            or message.author.id in config["blacklist"]):
             return
-        await execute(info, client, message, homebase)
+        await command_manager.execute(info, client, message, config)
 
-    print("Nani⁉ logging in...", flush=True)
-    client.run(token)
+    print("%s logging in..." % config["name"])
+    client.run(config["token"])
 
 
 if __name__ == "__main__":
@@ -44,11 +44,18 @@ if __name__ == "__main__":
             return lst
         return []
 
-    whitelist = load_list("whitelist")
-    blacklist = load_list("blacklist")
-    token = config["typo"]["token"]
-    homebase = config["typo"].get("homebase", None)
-    if homebase is not None:
-        homebase = int(homebase)
+    def load_optional_int(name):
+        raw_value = config["typo"].get(name, None)
+        if raw_value is not None:
+            return int(raw_value)
 
-    serve(token, whitelist, blacklist, homebase)
+    config_dict = {
+        "whitelist": load_list("whitelist"),
+        "blacklist": load_list("blacklist"),
+        "token": config["typo"]["token"],
+        "name": config["typo"]["name"],
+        "prefix": config["typo"].get("prefix", "."),
+        "homebase": load_optional_int("homebase"),
+    }
+
+    serve(config_dict)

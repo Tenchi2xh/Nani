@@ -1,5 +1,8 @@
 [typo]
+name = Nani⁉
+prefix = .
 token = <bot_token>
+homebase = <bot_help_server_id>
 # whitelist and blacklist are mutually exclusive
 # whitelist = [
 #     123,
