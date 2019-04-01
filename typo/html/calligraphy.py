@@ -25,6 +25,8 @@ class CalligraphyTemplate(HtmlTemplate):
             num2words(now.month, lang="ja"),
             num2words(now.day, lang="ja")
         )
+        if len(self.lines) == 1:
+            self.lines = [""] + self.lines
         self.lines = self.lines[:2] + [signature]
 
     def body(self, doc, tag, txt):
