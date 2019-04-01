@@ -19,11 +19,13 @@ def serve(config):
 
     @client.event
     async def on_message(message):
-        if (
-            message.author == client.user
-            or not config["blacklist"] and message.author.id not in config["whitelist"]
-            or message.author.id in config["blacklist"]
-        ):
+
+        is_self = message.author == client.user
+        on_homebase = message.guild.id != config["homebase"]
+        not_whitelisted = not config["blacklist"] and message.author.id not in config["whitelist"]
+        blacklisted = message.author.id in config["blacklist"]
+
+        if is_self or not on_homebase and (not_whitelisted or blacklisted):
             return
 
         await command_manager.execute(info, client, message, config)
