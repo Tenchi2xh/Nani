@@ -23,12 +23,3 @@ def render(template, text, author):
         f.close()
         driver.save_screenshot(f.name)
         return f.name
-
-
-if __name__ == "__main__":
-    from .templates import templates
-    import os
-    path = render(templates["yotsuba-ask"], "ここは細菌禁止。逮捕する…‼︎")
-    #path = render(templates["yotsuba-gun"], "何⁉️")
-    os.system("imgcat " + path)
-    os.remove(path)

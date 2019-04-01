@@ -4,36 +4,44 @@ from .command import command
 from .. import templates
 
 
+help_message = """
+This bot can generate **manga panels** (and other templates).
+
+To browse all available templates with examples,\
+ ask for an invite with the `.gallery` command.
+
+When generating templates with Japanese text,\
+ a language processor will annotate all *kanji* with **furigana**.
+
+The command to generate a panel starts with a full stop,\
+ followed by the name of the category\
+ (the first letter is enough, for example `.y`).\
+ After the command name, specify the template name, and then the text to use.
+
+Try it out yourself:
+
+• `.yotsuba ask 何これ…？`
+• `.y gun 俺を誰だと思ってるんだ⁉️`
+• `.template yotsuba-pray ご馳走様〜！`
+
+Templates denoted with a number contains that amount of speech bubbles.\
+ To fill them, each bubble must be provided on a separate line\
+ (Shift + Enter on desktop, carriage return on mobile). For example:
+
+```
+.gintama revolt This is bubble
+1.And this is bubble 2!
+```
+
+**Available categories:**
+""".strip()
+
+
 @command()
 async def help(context):
     embed = discord.Embed(
         title="Help for %s" % context.info.name,
-        description=
-            "This bot can generate **manga panels** (and other templates).\n"
-            "\n"
-            "To browse all available templates with examples, "
-            "ask for an invite with the `.gallery` command.\n"
-            "\n"
-            "When generating templates with Japanese text, "
-            "a language processor will annotate all *kanji* with **furigana**.\n"
-            "\n"
-            "The command to generate a panel starts with a full stop, "
-            "followed by the name of the category (the first letter is enough, for example `.y`). "
-            "After the command name, specify the template name, and then the text to use.\n"
-            "\n"
-            "Try it out yourself:\n"
-            "\n"
-            "• `.yotsuba ask 何これ…？`\n"
-            "• `.y gun 俺を誰だと思ってるんだ⁉️`\n"
-            "• `.template yotsuba-pray ご馳走様〜！`\n"
-            "\n"
-            "Templates denoted with a number contains that amount of speech bubbles. "
-            "To fill them, each bubble must be provided on a separate line "
-            "(Shift + Enter on desktop, carriage return on mobile). For example:\n"
-            "\n"
-            "```.gintama revolt This is bubble 1.\nAnd this is bubble 2!```\n"
-            "\n"
-            "**Available categories:**"
+        description=help_message
     )
     embed.set_thumbnail(url="https://i.imgur.com/mzYNzSN.png")
 

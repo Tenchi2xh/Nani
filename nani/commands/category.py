@@ -2,6 +2,7 @@ from .command import command
 from .util import send_template
 from .. import templates
 
+
 @command(names=lambda: [category for category in templates.categories])
 async def category(context):
     channel = context.message.channel

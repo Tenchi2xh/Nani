@@ -31,11 +31,16 @@ class CalligraphyTemplate(HtmlTemplate):
 
     def body(self, doc, tag, txt):
         parts = ["title", "main", "signature"]
+
         with tag("div", klass="scroll"):
             for i, part in enumerate(parts):
+
                 text = ""
                 if i < len(self.lines):
                     text = self.lines[i]
-                with tag("div", style=css_position(self.template[part]), klass="text fit %s" % part):
+
+                with tag("div",
+                         style=css_position(self.template[part]),
+                         klass="text fit %s" % part):
                     with tag("p"):
                         doc.asis(text)

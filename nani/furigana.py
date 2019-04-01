@@ -22,11 +22,13 @@ def html_furigana(text):
 def mecab(text):
     mecab = MeCab.Tagger("")
     words = []
-    text = text.replace(chr(32), chr(160))  # Replace spaces with forced spaces so that mecab doesn't strip them
+    # Replace spaces with forced spaces so that mecab doesn't strip them
+    text = text.replace(chr(32), chr(160))
     output = mecab.parse(text).splitlines()[:-1]
     lines = [raw_line.split("\t") for raw_line in output]
     for word, info in lines:
-        word = word.replace(chr(160), chr(32))  # Flip back
+        # Flip back spaces
+        word = word.replace(chr(160), chr(32))
         elems = info.split(",")
         if len(elems) > 7:
             reading = jaconv.kata2hira(info.split(",")[7])
@@ -65,7 +67,7 @@ def to_ruby(source, reading):
 
     first_diff, last_diff = 0, 0
 
-    j = 0;
+    j = 0
     for i in range(len(source)):
         last_diff = i
         j = i + 1
@@ -82,4 +84,7 @@ def to_ruby(source, reading):
     rt = reading[first_diff:len(reading) - last_diff]
     after = reading[len(reading) - last_diff:]
 
-    return '<span class="nobreak">%s<ruby><rb>%s</rb><rt>%s</rt></ruby>%s</span>' % (before, rb, rt, after)
+    return (
+        '<span class="nobreak">%s<ruby><rb>%s</rb><rt>%s</rt></ruby>%s</span>'
+        % (before, rb, rt, after)
+    )

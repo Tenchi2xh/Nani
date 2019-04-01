@@ -21,7 +21,7 @@ class HtmlTemplate(ABC):
         return self.path
 
     def __exit__(self, *args):
-        #os.system("open file://%s" % self.path)
+        # os.system("open file://%s" % self.path)
         os.remove(self.path)
         os.remove(self.stylesheet)
         return
@@ -62,4 +62,3 @@ class HtmlTemplate(ABC):
         f = tempfile.NamedTemporaryFile(mode="w", suffix=".html", delete=False)
         f.write(doc.getvalue())
         return f.name
-

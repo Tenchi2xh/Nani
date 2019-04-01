@@ -2,6 +2,7 @@ from .command import command
 from .util import send_template
 from .. import templates
 
+
 @command()
 async def template(context):
     channel = context.message.channel

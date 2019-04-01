@@ -19,10 +19,13 @@ def serve(config):
 
     @client.event
     async def on_message(message):
-        if (message.author == client.user
+        if (
+            message.author == client.user
             or not config["blacklist"] and message.author.id not in config["whitelist"]
-            or message.author.id in config["blacklist"]):
+            or message.author.id in config["blacklist"]
+        ):
             return
+
         await command_manager.execute(info, client, message, config)
 
     print("%s logging in..." % config["name"])

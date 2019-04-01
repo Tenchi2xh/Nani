@@ -6,7 +6,11 @@ def read_templates():
     templates_path = os.path.join(os.path.dirname(__file__), "resources", "templates")
     templates = {}
 
-    template_types = [f for f in os.listdir(templates_path) if os.path.isdir(os.path.join(templates_path, f))]
+    template_types = [
+        f for f in os.listdir(templates_path)
+        if os.path.isdir(os.path.join(templates_path, f))
+    ]
+
     for template_type in template_types:
         path = os.path.join(templates_path, template_type)
         json_files = [f for f in os.listdir(path) if f.endswith(".json")]
@@ -38,6 +42,7 @@ def categorize(templates):
 
 templates = read_templates()
 categories = categorize(templates)
+
 
 def refresh():
     global templates, categories
