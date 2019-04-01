@@ -5,7 +5,7 @@ from .. import templates
 @command(names=lambda: [category for category in templates.categories])
 async def category(context):
     channel = context.message.channel
-    template_name, text = context.arguments.split(maxsplit=2)
+    template_name, text = context.arguments.split(maxsplit=1)
 
     category = context.command_name
 
