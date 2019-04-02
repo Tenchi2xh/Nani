@@ -21,12 +21,19 @@ def serve(config):
     async def on_message(message):
 
         is_self = message.author == client.user
-        on_homebase = message.guild.id != config["homebase"]
         not_whitelisted = not config["blacklist"] and message.author.id not in config["whitelist"]
         blacklisted = message.author.id in config["blacklist"]
 
-        if is_self or not on_homebase and (not_whitelisted or blacklisted):
-            return
+        on_homebase = message.guild.id == config["homebase"]
+        allowed_message = message.content not in (".gallery", ".invite", ".help", ".h")
+
+        if is_self or not_whitelisted or blacklisted:
+            if on_homebase:
+                pass
+            elif allowed_message:
+                pass
+            else:
+                return
 
         await command_manager.execute(info, client, message, config)
 
