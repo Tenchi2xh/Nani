@@ -28,7 +28,7 @@ def serve(config):
         allowed_message = message.content not in (".gallery", ".invite", ".help", ".h")
 
         if is_self or not_whitelisted or blacklisted:
-            if on_homebase:
+            if on_homebase and not blacklisted:
                 pass
             elif allowed_message:
                 pass
@@ -57,10 +57,12 @@ def main():
             return lst
         return []
 
-    def load_optional_int(name):
+    def load_optional_int(name, default=None):
         raw_value = config.get(name, None)
         if raw_value is not None:
             return int(raw_value)
+        else:
+            return default
 
     config_dict = {
         "whitelist": load_list("whitelist"),
@@ -68,6 +70,7 @@ def main():
         "token": config["token"],
         "name": config["name"],
         "prefix": config.get("prefix", "."),
+        "cooldown": load_optional_int("cooldown", default=30),
         "homebase": load_optional_int("homebase"),
     }
 

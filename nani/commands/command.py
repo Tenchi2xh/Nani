@@ -1,3 +1,7 @@
+import time
+import asyncio
+
+
 class Context(object):
     def __init__(self, command_name, arguments, info, client, message, config, manager):
         self.command_name = command_name
@@ -31,6 +35,7 @@ def command(names=None, shorten=True):
 class CommandManager(object):
     def __init__(self):
         self.commands = []
+        self.cooldowns = {}
 
     def add_command(self, command):
         self.commands.append(command)
@@ -60,6 +65,20 @@ class CommandManager(object):
 
         print("=> User %s is requesting command %s with args '%s'"
               % (message.author, command_name, arguments))
+
+        elapsed = config["cooldown"]
+        if message.author.id in self.cooldowns:
+            elapsed = time.time() - self.cooldowns[message.author.id]
+
+        if elapsed < config["cooldown"] and not message.author == info.owner:
+            temp_message = await message.channel.send(
+                "Cooldown still active, please wait %d seconds."
+                % (config["cooldown"] - elapsed)
+            )
+            await asyncio.sleep(5)
+            return await temp_message.delete()
+
+        self.cooldowns[message.author.id] = time.time()
         return await command.execute(context)
 
     def get_command(self, input_command_name):
