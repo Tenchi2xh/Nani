@@ -28,7 +28,7 @@ def render(template, text, author):
 
 
 def check_session():
-    nonlocal driver
+    global driver
     try:
         driver.title
     except WebDriverException:
