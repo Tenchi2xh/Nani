@@ -21,7 +21,7 @@ def serve(config):
     async def on_message(message):
 
         is_self = message.author == client.user
-        not_whitelisted = not config["blacklist"] and message.author.id not in config["whitelist"]
+        not_whitelisted = not config["blacklist"] and config["whitelist"] and message.author.id not in config["whitelist"]
         blacklisted = message.author.id in config["blacklist"]
 
         on_homebase = message.guild.id == config["homebase"]

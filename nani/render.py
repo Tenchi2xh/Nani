@@ -18,7 +18,8 @@ atexit.register(lambda: driver.quit)
 def render(template, text, author):
     with html_template(template, text, author) as html_path:
         check_session()
-        driver.set_window_size(template["w"], template["h"])
+        scale = template["scale"] if "scale" in template else 1
+        driver.set_window_size(template["w"] * scale, template["h"] * scale)
         driver.get("file://%s" % html_path)
 
         f = tempfile.NamedTemporaryFile(suffix=".png", delete=False)

@@ -1,0 +1,29 @@
+@font-face {
+    font-family: "Japanese Pixel";
+    src: url({{ font }});
+}
+
+body {
+    margin: 0;
+    background-image: url({{ image }});
+    image-rendering: pixelated;
+    transform: scale({{ scale }});
+    transform-origin: top left;
+    background-size: {{ width }}px;
+}
+
+.screen {
+}
+
+.text {
+    position: absolute;
+    overflow: hidden;
+    font-family: "Japanese Pixel";
+    font-size: 8pt;
+    line-height: 16px;
+    color: white;
+}
+
+.text p {
+    margin: -4px 0 0 0;
+}

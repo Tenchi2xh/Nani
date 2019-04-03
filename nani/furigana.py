@@ -12,9 +12,21 @@ def html_furigana(text):
     html = ""
     for source, reading in words:
         if is_text.match(source) or not reading:
-            html += source
+            html += "<span>%s</span>" % source
         else:
             html += to_ruby(source, reading)
+
+    return html
+
+
+def html_reverse_furigana(text):
+    words = mecab(text)
+    html = ""
+    for source, reading in words:
+        if is_text.match(source) or is_hira_kata.match(source) or not reading:
+            html += "<span>%s</span>" % source
+        else:
+            html += "<span>%s</span>" % reading
 
     return html
 
