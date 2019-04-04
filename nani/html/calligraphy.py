@@ -6,7 +6,15 @@ from .html import HtmlTemplate
 from .util import resource_path, css_position
 
 
-class CalligraphyTemplate(HtmlTemplate):
+def calligraphy_template(template):
+    template_type = {
+        "scroll": ScrollTemplate
+    }
+
+    return template_type.get(template["name"].split("-")[0], None)
+
+
+class ScrollTemplate(HtmlTemplate):
     def __init__(self, template, text, author):
         super().__init__(
             template, text, author,
