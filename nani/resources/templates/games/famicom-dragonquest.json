@@ -3,6 +3,7 @@
     "h": 224,
     "scale": 4,
     "elements": 1,
+    "images": ["famicom-dragonquest.png", "famicom-dragonquest-3.png", "famicom-dragonquest-3.png"],
     "nickname": {"x": 48, "y": 24, "w": 35, "h": 8},
     "stats": {"x": 40, "y": 40, "w": 48, "h": 72},
     "main": {"x": 56, "y": 152, "w": 136, "h": 56}

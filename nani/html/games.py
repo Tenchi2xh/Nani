@@ -1,3 +1,4 @@
+import os
 import random
 import jaconv
 from abc import ABC, abstractmethod
@@ -19,12 +20,24 @@ def random_wide(min, max):
     return jaconv.h2z(str(random.randint(min, max)), digit=True)
 
 
+def get_image(template):
+    if "images" in template:
+        return resource_path(os.path.join(
+            "templates",
+            "games",
+            random.choice(template["images"])
+        ))
+    else:
+        return template["image"]
+
+
 class ScaledTemplate(HtmlTemplate):
     def __init__(self, template, text, author, stylesheet_names, resources):
         super().__init__(
             template, text, author,
             stylesheet_names=["scaled.css.j2"] + stylesheet_names,
             resources={
+                "bg": get_image(template),
                 "width": template["w"] * template["scale"],
                 "scale": template["scale"],
                 **resources
