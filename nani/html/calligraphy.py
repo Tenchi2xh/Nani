@@ -10,7 +10,7 @@ class CalligraphyTemplate(HtmlTemplate):
     def __init__(self, template, text, author):
         super().__init__(
             template, text, author,
-            stylesheet_name="calligraphy.css.j2",
+            stylesheet_names=["calligraphy.css.j2"],
             resources={
                 "font": resource_path(template["font"]),
                 "bg": resource_path("templates/calligraphy/%s" % template["bg"]),

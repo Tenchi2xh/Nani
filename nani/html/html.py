@@ -8,11 +8,11 @@ from .util import resource_path
 
 
 class HtmlTemplate(ABC):
-    def __init__(self, template, text, author, stylesheet_name, resources):
+    def __init__(self, template, text, author, stylesheet_names, resources):
         self.template = template
         self.lines = [l.strip() for l in text.split("\n") if l.strip()]
         self.author = author
-        self.stylesheet_name = stylesheet_name
+        self.stylesheet_names = stylesheet_names
         self.resources = resources
 
     def __enter__(self):
@@ -27,8 +27,17 @@ class HtmlTemplate(ABC):
         return
 
     def css(self):
-        with open(resource_path(self.stylesheet_name, file_protocol=False)) as f:
-            stylesheet_template = Template(f.read())
+        sheets = []
+        if isinstance(self.stylesheet_names, str):
+            sheets.append(self.stylesheet_names)
+        else:
+            sheets.extend(self.stylesheet_names)
+
+        template_aggregate = ""
+        for sheet in sheets:
+            with open(resource_path(sheet, file_protocol=False)) as f:
+                template_aggregate += f.read() + "\n"
+        stylesheet_template = Template(template_aggregate)
 
         stylesheet = stylesheet_template.render(
             image="file://" + self.template["image"],

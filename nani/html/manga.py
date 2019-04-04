@@ -7,7 +7,7 @@ class MangaTemplate(HtmlTemplate):
     def __init__(self, template, text, author):
         super().__init__(
             template, text, author,
-            stylesheet_name="manga.css.j2",
+            stylesheet_names=["manga.css.j2"],
             resources={
                 "font": {
                     "main": resource_path("FOT-RodinWanpakuPro-EB.otf"),
