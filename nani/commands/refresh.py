@@ -37,10 +37,11 @@ async def refresh(context):
         ),
     }
 
-    category_names = ["Manga", "Calligraphy"]
+    category_names = ["Manga", "Calligraphy", "Games"]
     samples = {
         "manga": "\n".join(["何⁉【%s】" % num2words(i + 1, lang="ja") for i in range(10)]),
-        "calligraphy": "書道の巻物を作るボット\n誤字"
+        "calligraphy": "書道の巻物を作るボット\n誤字",
+        "games": "何!?\n僕は　悪いスライム\nじゃないよ!\n殺さないで　くれよ…\n"
     }
 
     discord_categories = {}
@@ -63,11 +64,15 @@ async def refresh(context):
         )
 
         for i, (template_name, template) in enumerate(templates.categories[category].items()):
+            sample = samples[category_type]
+            if category == "seal":
+                sample = ["天地", "漫画撰者"][i % 2]
+
             await send_template(
                 context,
                 channel,
                 template,
-                samples[category_type],
+                sample,
                 msg="%s `.%s %s [lines]`:" % (
                     circled_numbers[i + 1],
                     short_command,
