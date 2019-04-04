@@ -23,7 +23,7 @@ class ScrollTemplate(HtmlTemplate):
             resources={
                 "font": resource_path(template["font"]),
                 "bg": resource_path("templates/calligraphy/%s" % template["bg"]),
-                "fg": resource_path("templates/calligraphy/calligraphy-scroll-fg.png"),
+                "fg": resource_path("templates/calligraphy/scroll-fg.png"),
                 "hue": random.randint(0, 17) * 20,
             }
         )

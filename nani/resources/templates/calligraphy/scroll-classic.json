@@ -2,7 +2,7 @@
     "w": 1280,
     "h": 2137,
     "elements": 2,
-    "bg": "calligraphy-scroll-bg3.png",
+    "bg": "scroll-bg3.png",
     "font": "NIS-KEB-RKSJ-H-01.ttf",
     "main": {"w": 693, "h": 1556, "x": 290, "y": 254},
     "signature": {"w": 84, "h": 1434, "x": 152, "y": 239},
