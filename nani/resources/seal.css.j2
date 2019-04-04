@@ -20,11 +20,20 @@ body {
 
 .seal span {
     background-color: hsl({{ hue }}, 50%, 50%);
-    line-height: 425px;
     font-family: "Seal Script";
     font-size: 450px;
-    padding: 28px 4px 24px 17px;
+    padding: {{ padding }};
     border-radius: 25px;
     color: white;
     mix-blend-mode: multiply;
+    line-height: {{ line_height }}px;
+    letter-spacing: {{ letter_spacing }}px;
+}
+
+.positive {
+    background: transparent !important;
+    border-style: solid;
+    border-color: hsl({{ hue }}, 50%, 50%);
+    border-width: 26px;
+    color: hsl({{ hue }}, 50%, 50%) !important;
 }

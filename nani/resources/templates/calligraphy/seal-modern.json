@@ -2,5 +2,10 @@
     "w": 1000,
     "h": 1000,
     "elements": 1,
-    "font": "seal-modern.woff2"
+    "font": "seal-modern.woff2",
+    "positive": false,
+    "letter-spacing": 0,
+    "line-height": 435,
+    "padding": "28px 4px 24px 17px",
+    "margin-left": 0
 }

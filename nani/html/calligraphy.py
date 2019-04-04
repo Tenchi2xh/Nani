@@ -24,7 +24,7 @@ class ScrollTemplate(HtmlTemplate):
                 "font": resource_path(template["font"]),
                 "bg": resource_path("templates/calligraphy/%s" % template["bg"]),
                 "fg": resource_path("templates/calligraphy/calligraphy-scroll-fg.png"),
-                "hue": random.randint(0, 17) * 20
+                "hue": random.randint(0, 17) * 20,
             }
         )
         now = datetime.now()
@@ -64,18 +64,27 @@ class SealTemplate(HtmlTemplate):
                 "font": resource_path(template["font"]),
                 "texture": resource_path("texture.png"),
                 "bg": resource_path("templates/calligraphy/paper.png"),
-                "hue": random.randint(0, 17) * 20
+                "hue": random.randint(0, 17) * 20,
+                "letter_spacing": template["letter-spacing"],
+                "line_height": template["line-height"],
+                "padding": template["padding"]
             }
         )
 
     def body(self, doc, tag, txt):
         text = "".join(self.lines)
+        parts = []
+
         if len(text) == 4:
-            text = "%s%s<br>%s%s" % (text[2], text[0], text[3], text[1])
+            parts = (text[2] + text[0], text[3] + text[1])
         elif len(text) == 2:
-            text = "%s<br>%s" % (text[0], text[1])
+            parts = (text[0], text[1])
+
+        if parts:
+            content = "".join('<div style="margin-left: %dpx">%s</div>' % (self.template["margin-left"], part) for part in parts)
         else:
-            text = "?"
+            content = "?"
+
         with tag("div", klass="seal"):
-            with tag("span"):
-                doc.asis(text)
+            with tag("span", klass="positive" if self.template["positive"] else ""):
+                doc.asis(content)

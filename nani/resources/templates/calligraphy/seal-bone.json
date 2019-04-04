@@ -1,0 +1,11 @@
+{
+    "w": 1000,
+    "h": 1000,
+    "elements": 1,
+    "font": "DFShinTen-W7-WIN-RKSJ-H-01.ttf",
+    "positive": true,
+    "letter-spacing": -160,
+    "line-height": 380,
+    "padding": "18px 100px 10px 25px",
+    "margin-left": -100
+}
