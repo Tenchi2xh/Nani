@@ -86,7 +86,7 @@ class SealTemplate(HtmlTemplate):
         if parts:
             content = "".join('<div style="margin-left: %dpx">%s</div>' % (self.template["margin-left"], part) for part in parts)
         else:
-            raise RuntimeError("Not the right amount of characters")
+            raise ValueError("Only 2 or 4 characters allowed (no spaces).")
 
         with tag("div", klass="seal"):
             with tag("span", klass="positive" if self.template["positive"] else ""):

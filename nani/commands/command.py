@@ -2,6 +2,12 @@ import time
 import asyncio
 
 
+async def temporary_message(channel, message):
+    temp_message = await channel.send(message)
+    await asyncio.sleep(5)
+    return await temp_message.delete()
+
+
 class Context(object):
     def __init__(self, command_name, arguments, info, client, message, config, manager):
         self.command_name = command_name
@@ -71,15 +77,17 @@ class CommandManager(object):
             elapsed = time.time() - self.cooldowns[message.author.id]
 
         if elapsed < config["cooldown"] and not message.author == info.owner:
-            temp_message = await message.channel.send(
+            await temporary_message(
+                message.channel,
                 "Cooldown still active, please wait %d seconds."
                 % (config["cooldown"] - elapsed)
             )
-            await asyncio.sleep(5)
-            return await temp_message.delete()
 
         self.cooldowns[message.author.id] = time.time()
-        return await command.execute(context)
+        try:
+            return await command.execute(context)
+        except ValueError as e:
+            return await temporary_message(message.channel, "**Error**: `%s`" % e.args[0])
 
     def get_command(self, input_command_name):
         mapping = {}
