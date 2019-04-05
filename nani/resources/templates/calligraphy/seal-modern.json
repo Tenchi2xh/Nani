@@ -3,6 +3,7 @@
     "h": 1000,
     "elements": 1,
     "font": "seal-modern.woff2",
+    "chinese": true,
     "positive": false,
     "letter-spacing": 0,
     "line-height": 435,

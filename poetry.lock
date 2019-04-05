@@ -61,6 +61,7 @@ websockets = ">=6.0,<7.0"
 reference = "77dd4e3de0f31b6cb5841c0c0e76c2ebd4d48f4b"
 type = "git"
 url = "https://github.com/Rapptz/discord.py"
+
 [[package]]
 category = "main"
 description = "Pythonic argument parser, that will make you smile"
@@ -68,6 +69,14 @@ name = "docopt"
 optional = false
 python-versions = "*"
 version = "0.6.2"
+
+[[package]]
+category = "main"
+description = "Hanzi Converter for Traditional and Simplified Chinese"
+name = "hanziconv"
+optional = false
+python-versions = "*"
+version = "0.3.2"
 
 [[package]]
 category = "main"
@@ -297,7 +306,7 @@ python-versions = "*"
 version = "1.11.1"
 
 [metadata]
-content-hash = "6a3c18334054f57e310a8380cc75b8b7854c6144352243dd098d31c5896c5ca5"
+content-hash = "819af208c3cff36f4b24c1d9e3fdc83c49d50c88baa6ea91254d761c1357761f"
 python-versions = "^3.6"
 
 [metadata.hashes]
@@ -307,6 +316,7 @@ attrs = ["69c0dbf2ed392de1cb5ec704444b08a5ef81680a61cb899dc08127123af36a79", "f0
 chardet = ["84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae", "fc323ffcaeaed0e0a02bf4d117757b98aed530d9ed4531e3e15460124c106691"]
 "discord.py" = []
 docopt = ["49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"]
+hanziconv = ["208866da6ae305bca19eb98702b65c93bb3a803b496e4287ca740d68892fc4c4"]
 idna = ["c357b3f628cf53ae2c4c05627ecc484553142ca23264e593d327bcde5e9c3407", "ea8b7f6188e6fa117537c3df7da9fc686d485087abf6ac197f9c46432f7e4a3c"]
 idna-ssl = ["a933e3bb13da54383f9e8f35dc4f9cb9eb9b3b78c6b36f311254d6d0d92c6c7c"]
 imgkit = ["c7cfd4949343aec503353c7bdae6f05ab5b4c79cb9f5153bd5708cd3bf129df7"]

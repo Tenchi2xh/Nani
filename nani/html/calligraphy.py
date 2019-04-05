@@ -1,6 +1,7 @@
 import random
 from datetime import datetime
 from num2words import num2words
+from hanziconv import HanziConv
 
 from .html import HtmlTemplate
 from .util import resource_path, css_position
@@ -73,6 +74,8 @@ class SealTemplate(HtmlTemplate):
 
     def body(self, doc, tag, txt):
         text = "".join(self.lines)
+        if self.template["chinese"]:
+            text = HanziConv.toSimplified(text)
         parts = []
 
         if len(text) == 4:

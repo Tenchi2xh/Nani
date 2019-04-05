@@ -15,6 +15,7 @@ jaconv = "^0.2.4"
 jinja2 = "^2.10"
 Pillow = "^5.4"
 num2words = "^0.5.9"
+hanziconv = "^0.3.2"
 
 
 [tool.poetry.dev-dependencies]

@@ -3,6 +3,7 @@
     "h": 1000,
     "elements": 1,
     "font": "DFShinTen-W7-WIN-RKSJ-H-01.ttf",
+    "chinese": false,
     "positive": true,
     "letter-spacing": -160,
     "line-height": 380,
